@@ -1,6 +1,8 @@
 package com.tiago_silveirago.workshop_mongodb.controllers;
 
 import com.tiago_silveirago.workshop_mongodb.domain.UserEntity;
+import com.tiago_silveirago.workshop_mongodb.dto.UserResponseDTO;
+import com.tiago_silveirago.workshop_mongodb.factories.UserFactory;
 import com.tiago_silveirago.workshop_mongodb.services.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,8 +22,12 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<UserEntity>> findAll() {
+    public ResponseEntity<List<UserResponseDTO>> findAll() {
+
         List<UserEntity> list = service.findAll();
-        return ResponseEntity.ok().body(list);
+
+        List<UserResponseDTO> response = UserFactory.convertToDto(list);
+
+        return ResponseEntity.ok().body(response);
     }
 }
