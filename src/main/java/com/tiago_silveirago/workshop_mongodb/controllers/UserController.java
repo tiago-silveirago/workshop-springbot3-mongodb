@@ -1,18 +1,16 @@
 package com.tiago_silveirago.workshop_mongodb.controllers;
 
-import com.tiago_silveirago.workshop_mongodb.domain.UserEntity;
-import com.tiago_silveirago.workshop_mongodb.dto.UserResponseDTO;
-import com.tiago_silveirago.workshop_mongodb.factories.UserFactory;
+import com.tiago_silveirago.workshop_mongodb.dto.user.UserRequestDTO;
+import com.tiago_silveirago.workshop_mongodb.dto.user.UserResponseDTO;
 import com.tiago_silveirago.workshop_mongodb.services.UserService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/users")
+@RequestMapping(value = {"/users", "/users/"})
 public class UserController {
 
     private final UserService service;
@@ -23,10 +21,35 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<List<UserResponseDTO>> findAll() {
+        List<UserResponseDTO> response = service.findAll();
 
-        List<UserEntity> list = service.findAll();
+        return ResponseEntity.ok().body(response);
+    }
 
-        List<UserResponseDTO> response = UserFactory.convertToDto(list);
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<UserResponseDTO> findById(@PathVariable String id) {
+        UserResponseDTO response = service.findById(id);
+
+        return ResponseEntity.ok().body(response);
+    }
+
+    @PostMapping
+    public ResponseEntity<UserResponseDTO> insert(@RequestBody UserRequestDTO request) {
+        UserResponseDTO response = service.insert(request);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> delete(@PathVariable String id) {
+        service.delete(id);
+
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<UserResponseDTO> update(@PathVariable String id, @RequestBody UserRequestDTO request) {
+        UserResponseDTO response = service.update(id, request);
 
         return ResponseEntity.ok().body(response);
     }
