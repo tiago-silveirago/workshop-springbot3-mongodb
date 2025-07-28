@@ -1,7 +1,9 @@
 package com.tiago_silveirago.workshop_mongodb.controllers;
 
+import com.tiago_silveirago.workshop_mongodb.dto.post.PostResponseDTO;
 import com.tiago_silveirago.workshop_mongodb.dto.user.UserRequestDTO;
 import com.tiago_silveirago.workshop_mongodb.dto.user.UserResponseDTO;
+import com.tiago_silveirago.workshop_mongodb.dto.user.UserWithPostReferencesDTO;
 import com.tiago_silveirago.workshop_mongodb.services.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,15 +22,22 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<UserResponseDTO>> findAll() {
-        List<UserResponseDTO> response = service.findAll();
+    public ResponseEntity<List<UserWithPostReferencesDTO>> findAll() {
+        List<UserWithPostReferencesDTO> response = service.findAll();
 
         return ResponseEntity.ok().body(response);
     }
 
-    @GetMapping(value = "/{id}")
+    @GetMapping(value = "/{id}/posts")
     public ResponseEntity<UserResponseDTO> findById(@PathVariable String id) {
         UserResponseDTO response = service.findById(id);
+
+        return ResponseEntity.ok().body(response);
+    }
+
+    @GetMapping(value="/{id}")
+    public ResponseEntity<UserWithPostReferencesDTO> findByIdWithPostReferences(@PathVariable String id) {
+        UserWithPostReferencesDTO response = service.findByIdWithPostReferences(id);
 
         return ResponseEntity.ok().body(response);
     }
