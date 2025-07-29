@@ -2,7 +2,7 @@ package com.tiago_silveirago.workshop_mongodb.factories;
 
 import com.tiago_silveirago.workshop_mongodb.domain.Post;
 import com.tiago_silveirago.workshop_mongodb.dto.post.PostResponseDTO;
-import com.tiago_silveirago.workshop_mongodb.dto.post.SimplePostDTO;
+import com.tiago_silveirago.workshop_mongodb.dto.post.PostSimplifiedDTO;
 
 import java.util.List;
 
@@ -11,18 +11,18 @@ public class PostFactory {
     private PostFactory() {
     }
 
-    public static SimplePostDTO convertToSimplePostDto(Post post) {
+    public static PostSimplifiedDTO convertToPostSimplifiedDto(Post post) {
 
-        return new SimplePostDTO(
+        return new PostSimplifiedDTO(
                 post.getDate(),
                 post.getTitle(),
                 post.getBody());
     }
 
-    public static List<SimplePostDTO> convertToSimplePostDto(List<Post> posts) {
+    public static List<PostSimplifiedDTO> convertToPostSimplifiedDto(List<Post> posts) {
 
         return posts.stream()
-                .map(PostFactory::convertToSimplePostDto)
+                .map(PostFactory::convertToPostSimplifiedDto)
                 .toList();
     }
 
@@ -32,7 +32,8 @@ public class PostFactory {
                 post.getDate(),
                 post.getTitle(),
                 post.getBody(),
-                UserFactory.convertToSimpleUserDto(post.getAuthor()));
+                UserFactory.convertToUserNameDto(post.getAuthor()),
+                CommentFactory.convertToDto(post.getComments()));
     }
 
     public static List<PostResponseDTO> convertToDto(List<Post> posts) {

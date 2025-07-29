@@ -2,7 +2,7 @@ package com.tiago_silveirago.workshop_mongodb.factories;
 
 import com.tiago_silveirago.workshop_mongodb.domain.Post;
 import com.tiago_silveirago.workshop_mongodb.domain.User;
-import com.tiago_silveirago.workshop_mongodb.dto.user.SimpleUserDTO;
+import com.tiago_silveirago.workshop_mongodb.dto.user.UserNameDTO;
 import com.tiago_silveirago.workshop_mongodb.dto.user.UserRequestDTO;
 import com.tiago_silveirago.workshop_mongodb.dto.user.UserResponseDTO;
 import com.tiago_silveirago.workshop_mongodb.dto.user.UserWithPostReferencesDTO;
@@ -19,12 +19,12 @@ public class UserFactory {
         return new User(null, request.name(), request.email());
     }
 
-    public static SimpleUserDTO convertToSimpleUserDto(User user) {
-        return new SimpleUserDTO(user.getName());
+    public static UserNameDTO convertToUserNameDto(User user) {
+        return new UserNameDTO(user.getName());
     }
 
     public static UserResponseDTO convertToDto(User user) {
-        return new UserResponseDTO(user.getName(), user.getEmail(), PostFactory.convertToSimplePostDto(user.getPosts()));
+        return new UserResponseDTO(user.getName(), user.getEmail(), PostFactory.convertToPostSimplifiedDto(user.getPosts()));
     }
 
     public static UserWithPostReferencesDTO convertToDtoWithPostReferences(User user) {

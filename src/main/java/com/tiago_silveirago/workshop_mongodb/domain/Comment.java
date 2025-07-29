@@ -5,30 +5,33 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 @Document
-public class Post implements Serializable {
+public class Comment implements Serializable {
 
     @Id
     private String id;
+    private String text;
     private Instant date;
-    private String title;
-    private String body;
     private User author;
+    private Post post;
 
-    private List<Comment> comments = new ArrayList<>();
-
-    public Post() {
+    public Comment() {
     }
 
-    public Post(String id, Instant date, String title, String body, User author) {
+    public Comment(String id, String text, Instant date, User author, Post post) {
         this.id = id;
+        this.text = text;
         this.date = date;
-        this.title = title;
-        this.body = body;
+        this.author = author;
+        this.post = post;
+    }
+
+    public Comment(String id, String text, Instant date, User author) {
+        this.id = id;
+        this.text = text;
+        this.date = date;
         this.author = author;
     }
 
@@ -40,28 +43,20 @@ public class Post implements Serializable {
         this.id = id;
     }
 
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
     public Instant getDate() {
         return date;
     }
 
     public void setDate(Instant date) {
         this.date = date;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getBody() {
-        return body;
-    }
-
-    public void setBody(String body) {
-        this.body = body;
     }
 
     public User getAuthor() {
@@ -72,15 +67,19 @@ public class Post implements Serializable {
         this.author = author;
     }
 
-    public List<Comment> getComments() {
-        return comments;
+    public Post getPost() {
+        return post;
+    }
+
+    public void setPost(Post post) {
+        this.post = post;
     }
 
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        Post post = (Post) o;
-        return Objects.equals(id, post.id);
+        Comment comment = (Comment) o;
+        return Objects.equals(id, comment.id);
     }
 
     @Override

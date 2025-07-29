@@ -5,7 +5,6 @@ import com.tiago_silveirago.workshop_mongodb.dto.user.UserRequestDTO;
 import com.tiago_silveirago.workshop_mongodb.dto.user.UserResponseDTO;
 import com.tiago_silveirago.workshop_mongodb.dto.user.UserWithPostReferencesDTO;
 import com.tiago_silveirago.workshop_mongodb.repositories.UserRepository;
-import com.tiago_silveirago.workshop_mongodb.services.exeptions.DocumentInUseException;
 import com.tiago_silveirago.workshop_mongodb.services.exeptions.ObjectNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -51,12 +50,7 @@ public class UserService {
 
     public void delete(String id) {
         ensureUserExists(id);
-
-        try {
-            repository.deleteById(id);
-        } catch (DataIntegrityViolationException e) {
-            throw new DocumentInUseException("Invalid action. User is linked to one or more posts.");
-        }
+        repository.deleteById(id);
     }
 
     public UserResponseDTO update(String id, UserRequestDTO request) {
