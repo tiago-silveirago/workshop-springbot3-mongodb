@@ -22,9 +22,9 @@ public class CommentController {
 
     @GetMapping
     public ResponseEntity<List<CommentResponseDTO>> findAll() {
-        List<CommentResponseDTO> response = service.findAll();
+        List<CommentResponseDTO> responses = service.findAll();
 
-        return ResponseEntity.ok().body(response);
+        return ResponseEntity.ok().body(responses);
     }
 
     @GetMapping(value = "/{id}")

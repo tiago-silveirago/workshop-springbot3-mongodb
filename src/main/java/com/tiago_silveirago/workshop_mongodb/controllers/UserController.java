@@ -23,9 +23,9 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<List<UserWithPostReferencesDTO>> findAll() {
-        List<UserWithPostReferencesDTO> response = service.findAll();
+        List<UserWithPostReferencesDTO> responses = service.findAll();
 
-        return ResponseEntity.ok().body(response);
+        return ResponseEntity.ok().body(responses);
     }
 
     @GetMapping(value = "/{id}/posts")

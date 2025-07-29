@@ -41,4 +41,10 @@ public class PostService {
 
         return optionalPost.get();
     }
+
+    public List<PostResponseDTO> findByTitle(String text) {
+        List<Post> posts = repository.findByTitle(text);
+
+        return convertToDto(posts);
+    }
 }
